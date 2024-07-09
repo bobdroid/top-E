@@ -1,5 +1,25 @@
+<!DOCTYPE html>
 <html>
     <body>
-        hallo
+        <label for="fgebruik">Gebruikersnaam:</label>
+        <input type="text" id="fgebruik" name="fgebruik"><br><br>
+        <label for="fww">Wachtwoord:</label>
+        <input type="password" id="fww" name="fww"><br><br>
+        <button onclick="testnaam()">Login</button>
     </body>
+
+    <script>
+        var gebruikersnaam;
+        var wachtwoord;
+
+        function testnaam() {
+            gebruikersnaam = document.getElementById('fgebruik').value;
+            console.log("Gebruikersnaam stored in variable: " + gebruikersnaam); 
+            wachtwoord = document.getElementById('fww').value;
+            console.log("Wachtwoord stored in variable: " + wachtwoord); 
+            if (gebruikersnaam === "bobdriod" && wachtwoord === "#JamaLtveEl..,.") {
+                alert("Poopie")
+            }
+        }
+    </script>
 </html>
