@@ -1,11 +1,53 @@
 <!DOCTYPE html>
 <html>
+    <style>
+        .centeredinvul1 {
+            position: fixed;
+            top: 40%;
+            left: 45%;
+            margin-top: -50px;
+            margin-left: -100px;
+        }
+
+        .centeredinvul2 {
+            position: fixed;
+            top: 40%;
+            left: 49%;
+            margin-top: -50px;
+            margin-left: -100px;
+        }
+
+        .centeredinvul3 {
+            position: fixed;
+            top: 45%;
+            left: 45%;
+            margin-top: -50px;
+            margin-left: -100px;
+        }
+
+        .centeredinvul4 {
+            position: fixed;
+            top: 45%;
+            left: 49%;
+            margin-top: -50px;
+            margin-left: -100px;
+        }
+      
+        .centeredbutton {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            background-color: aqua;
+            margin-top: -50px;
+            margin-left: -100px;
+        }
+    </style>
     <body>
-        <label for="fgebruik">Gebruikersnaam:</label>
-        <input type="text" id="fgebruik" name="fgebruik"><br><br>
-        <label for="fww">Wachtwoord:</label>
-        <input type="password" id="fww" name="fww"><br><br>
-        <button onclick="testnaam()">Login</button>
+        <label class="centeredinvul1" for="fgebruik">Gebruikersnaam:</label>
+        <input class="centeredinvul2" type="text" id="fgebruik" name="fgebruik"><br><br>
+        <label class="centeredinvul3" for="fww">Wachtwoord:</label>
+        <input class="centeredinvul4" type="password" id="fww" name="fww"><br><br>
+        <button class= "centeredbutton" onclick="testnaam()">Login</button>
     </body>
 
     <script>
