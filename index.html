@@ -40,6 +40,16 @@
             font-size: 275%;
             background-color: #79C99E;
         }
+
+        .foutww {
+            position: fixed;
+            top: 50%;
+            left: 15%;
+            margin-top: -50px;
+            margin-left: -100px;
+            font-size: 255%;
+            color: red;
+        }
       
         .centeredbutton {
             position: fixed;
@@ -55,29 +65,49 @@
 
         .body{
             background-color:  #4c7579
-
-;
         }
+
+        .balk {
+            background-color: #79C99E;
+            font-size: 10px;
+            height: 200%;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #79C99E;
+            font-size: x-large;
+}
     </style>
     <body class="body">
+        
+        <div class="topnav">
+            <h1>&nbsp;</h1>
+          </div>
+
         <label class="centeredinvul1" for="fgebruik">Gebruikersnaam:</label>
         <input class="centeredinvul2" type="text" id="fgebruik" name="fgebruik"><br><br>
         <label class="centeredinvul3" for="fww">Wachtwoord:</label>
         <input class="centeredinvul4" type="password" id="fww" name="fww"><br><br>
         <button class= "centeredbutton" onclick="testnaam()">Login</button>
+        <p id="foutmelding" class="foutww"></p>
     </body>
 
     <script>
         var gebruikersnaam;
         var wachtwoord;
+        
 
         function testnaam() {
             gebruikersnaam = document.getElementById('fgebruik').value;
             console.log("Gebruikersnaam stored in variable: " + gebruikersnaam); 
             wachtwoord = document.getElementById('fww').value;
             console.log("Wachtwoord stored in variable: " + wachtwoord); 
-            if (gebruikersnaam === "fred" && wachtwoord === "lommerse") {
-                alert("De poes heet Petra")
+            if (gebruikersnaam === "egel" && wachtwoord === "egel") {
+                alert("Keuken is schoon")
+                document.getElementById("foutmelding").innerHTML = ""
+            } else if(a =true) {
+                document.getElementById("foutmelding").innerHTML = "Sorry het wachtwoord en/of gebruikersaam is fout"
             }
         }
     </script>
