@@ -61,6 +61,7 @@
             width: 70%;
             height: 20%;
             font-size: xxx-large;
+            color: black;
         }
 
         .body{
@@ -77,13 +78,22 @@
             overflow: hidden;
             background-color: #79C99E;
             font-size: x-large;
-}
+        }
+
+        .profilepicture {
+            position: fixed;
+            width: 11%;
+            left: 87%;
+            top: 1%;
+        }
     </style>
     <body class="body">
         
         <div class="topnav">
             <h1>&nbsp;</h1>
           </div>
+
+          <img src="img/profilepic.png" class="profilepicture">
 
         <label class="centeredinvul1" for="fgebruik">Gebruikersnaam:</label>
         <input class="centeredinvul2" type="text" id="fgebruik" name="fgebruik"><br><br>
@@ -104,8 +114,7 @@
             wachtwoord = document.getElementById('fww').value;
             console.log("Wachtwoord stored in variable: " + wachtwoord); 
             if (gebruikersnaam === "egel" && wachtwoord === "egel") {
-                alert("De groente boer is gekomen")
-                document.getElementById("foutmelding").innerHTML = ""
+                window.location.href = "tracker.html";
             } else if(a =true) {
                 document.getElementById("foutmelding").innerHTML = "Sorry het wachtwoord en/of gebruikersaam is fout"
             }

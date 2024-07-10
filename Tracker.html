@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afbeelding Uploaden</title>
+</head>
+<body>
+    <h2>Upload een Afbeelding</h2>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="image" id="imageInput" accept="image/*" required>
+        <br><br>
+        <input type="button" value="Upload Afbeelding" onclick="uploadImage()">
+    </form>
+
+    <div id="uploadResult"></div>
+
+    <script>
+       function uploadImage() {
+    var formData = new FormData(document.getElementById('uploadForm'));
+    
+    fetch('upload.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('uploadResult').innerHTML = data;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Er is een fout opgetreden tijdens het uploaden van de afbeelding.');
+    });
+}
+
+    </script>
+</body>
+</html>
