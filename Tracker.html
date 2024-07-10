@@ -16,23 +16,24 @@
     <div id="uploadResult"></div>
 
     <script>
-       function uploadImage() {
-    var formData = new FormData(document.getElementById('uploadForm'));
-    
-    fetch('upload.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('uploadResult').innerHTML = data;
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Er is een fout opgetreden tijdens het uploaden van de afbeelding.');
-    });
-}
+        function uploadImage() {
+            var formData = new FormData();
+            var file = document.getElementById('imageInput').files[0];
+            formData.append('image', file);
 
+            fetch('upload.php', {
+                method: 'PUT',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('uploadResult').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Er is een fout opgetreden tijdens het uploaden van de afbeelding.');
+            });
+        }
     </script>
 </body>
 </html>

@@ -1,24 +1,21 @@
 <?php
-// Controleer of er daadwerkelijk een bestand is geüpload
-if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
-    // Map waar de afbeeldingen moeten worden opgeslagen (moet schrijfbaar zijn door de server)
-    $upload_dir = 'uploads/';
+// Verkrijg de invoerstroom van de PUT-aanvraag
+$input = fopen('php://input', 'r');
+// Map waar de afbeeldingen moeten worden opgeslagen (moet schrijfbaar zijn door de server)
+$upload_dir = 'uploads/';
 
-    // Zorg ervoor dat de upload map bestaat, zo niet, maak deze dan aan
-    if (!file_exists($upload_dir)) {
-        mkdir($upload_dir, 0777, true);
-    }
+// Zorg ervoor dat de upload map bestaat, zo niet, maak deze dan aan
+if (!file_exists($upload_dir)) {
+    mkdir($upload_dir, 0777, true);
+}
 
-    // Verplaats het geüploade bestand naar de juiste map
-    $temp_file = $_FILES['image']['tmp_name'];
-    $target_file = $upload_dir . basename($_FILES['image']['name']);
+// Bestandsnaam genereren op basis van timestamp (kan worden aangepast naar eigen behoefte)
+$target_file = $upload_dir . time() . '.jpg'; // of .png of .gif, afhankelijk van het bestandstype dat wordt geüpload
 
-    if (move_uploaded_file($temp_file, $target_file)) {
-        echo "De afbeelding is succesvol geüpload.";
-    } else {
-        echo "Er is een probleem opgetreden tijdens het uploaden van de afbeelding.";
-    }
+// Probeer het bestand op te slaan
+if (file_put_contents($target_file, $input) !== false) {
+    echo "De afbeelding is succesvol geüpload.";
 } else {
-    echo "Er is een fout opgetreden tijdens het uploaden van de afbeelding.";
+    echo "Er is een probleem opgetreden tijdens het uploaden van de afbeelding.";
 }
 ?>
