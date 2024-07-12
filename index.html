@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Pagina</title>
     <style>
-
         ul {
             list-style-type: none;
             margin: 0;
@@ -105,6 +107,7 @@
             margin-left: -100px;
             font-size: 255%;
             color: red;
+            display: none;
         }
       
         .centeredbutton {
@@ -130,8 +133,6 @@
             height: 200%;
         }
 
-       
-
         .profilepicture {
             position: fixed;
             width: 11%;
@@ -139,39 +140,51 @@
             top: 0.75%;
         }
     </style>
-    <body>
+</head>
+<body>
 
-        <ul>
-            <li><a href="index.html">Login</a></li>
-          </ul>
-        
-       
+    <ul>
+        <li><a href="index.html">Login</a></li>
+    </ul>
+    
+    <img src="img/profilepic.png" class="profilepicture">
 
-          <img src="img/profilepic.png" class="profilepicture">
-
-        <label class="centeredinvul1" for="fgebruik">Gebruikersnaam:</label>
-        <input class="centeredinvul2" type="text" id="fgebruik" name="fgebruik"><br><br>
-        <label class="centeredinvul3" for="fww">Wachtwoord:</label>
-        <input class="centeredinvul4" type="password" id="fww" name="fww"><br><br>
-        <button class= "centeredbutton" onclick="testnaam()">Login</button>
-        <p id="foutmelding" class="foutww"></p>
-    </body>
+    <label class="centeredinvul1" for="fgebruik">Gebruikersnaam:</label>
+    <input class="centeredinvul2" type="text" id="fgebruik" name="fgebruik"><br><br>
+    <label class="centeredinvul3" for="fww">Wachtwoord:</label>
+    <input class="centeredinvul4" type="password" id="fww" name="fww"><br><br>
+    <button class="centeredbutton" onclick="testnaam()">Login</button>
+    <p id="foutmelding" class="foutww"></p>
 
     <script>
         var gebruikersnaam;
         var wachtwoord;
-        
 
         function testnaam() {
-            var gebruikersnaam = document.getElementById('fgebruik').value;
+            gebruikersnaam = document.getElementById('fgebruik').value;
             console.log("Gebruikersnaam stored in variable: " + gebruikersnaam); 
-            var wachtwoord = document.getElementById('fww').value;
+            wachtwoord = document.getElementById('fww').value;
             console.log("Wachtwoord stored in variable: " + wachtwoord); 
             if (gebruikersnaam === "egel" && wachtwoord === "egel") {
                 window.location.href = "Tracker.html";
             } else {
-                document.getElementById("foutmelding").innerHTML = "Sorry, het wachtwoord en/of gebruikersnaam is fout.";
+                document.getElementById("foutmelding").style.display = "block";
+                document.getElementById("foutmelding").innerHTML = "Sorry, het wachtwoord en/of de gebruikersnaam is fout.";
             }
         }
+
+        // Voeg een event listener toe voor het 'keydown' event
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Enter") {
+                testnaam();
+            }
+        });
+
+        // Voeg een event listener toe voor het document load event om de foutmelding te verbergen
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById("foutmelding").style.display = "none";
+        });
+        
     </script>
+</body>
 </html>
