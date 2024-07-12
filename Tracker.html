@@ -134,6 +134,8 @@
         .search-container {
             max-width: 400px;
             margin: 0 auto;
+            position: fixed;
+            left: 20px;
         }
 
         .search-box {
@@ -144,9 +146,19 @@
             border-radius: 4px;
         }
 
+        .aantal {
+            position: fixed;
+            left: 200px
+        }
+
         .value-display {
             margin-top: 20px;
             font-size: 18px;
+        }
+
+        .Invullenicon {
+            font-size: xxx-large;
+            color: #ffffff;
         }
 
     </style>
@@ -168,15 +180,16 @@
 
         <img src="img/profilepic.png" class="profilepicture">
 
+        <label for="search" class="Invullenicon"> <div>voer hier in  wat je hebt gegeten vandaag:</div></label>
+        <p>&nbsp;</p>
+
         <div class="search-container">
-            <label for="search">Zoeken:</label>
             <input type="text" id="search" class="search-box" list="suggestions" placeholder="Typ om te zoeken...">
             <datalist id="suggestions"></datalist>
             <div id="valueDisplay" class="value-display"></div>
         </div>
 
-        <input id="hallo"> 
-        <button onclick="testiing()">wf</button>
+         
     </body>
 
     <script>
@@ -225,9 +238,9 @@
             }
         });
 
-        function testiing() {
+        function aantal() {
             let a = document.getElementById("hallo").value;
-            console.log(a);
+            valueDisplay.textContent = a
         }
     </script>
 
