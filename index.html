@@ -110,14 +110,14 @@
         
 
         function testnaam() {
-            gebruikersnaam = document.getElementById('fgebruik').value;
+            var gebruikersnaam = document.getElementById('fgebruik').value;
             console.log("Gebruikersnaam stored in variable: " + gebruikersnaam); 
-            wachtwoord = document.getElementById('fww').value;
+            var wachtwoord = document.getElementById('fww').value;
             console.log("Wachtwoord stored in variable: " + wachtwoord); 
             if (gebruikersnaam === "egel" && wachtwoord === "egel") {
-                window.location.href = "tracker.html";
-            } else if(a =true) {
-                document.getElementById("foutmelding").innerHTML = "Sorry het wachtwoord en/of gebruikersaam is fout"
+                window.location.href = "Tracker.html";
+            } else {
+                document.getElementById("foutmelding").innerHTML = "Sorry, het wachtwoord en/of gebruikersnaam is fout.";
             }
         }
     </script>
