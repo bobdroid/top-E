@@ -1,6 +1,62 @@
 <!DOCTYPE html>
 <html>
     <style>
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #38444d;
+        }
+
+        li {
+            float: left;
+            height: 119px;
+        }
+
+        li a, .dropbtn {
+            display: inline-block;
+            color: white;
+            text-align: absolute;
+            padding: 30px 16px;
+            text-decoration: none;
+            font-size: xxx-large;
+        }
+
+        li a:hover, .dropdown:hover .dropbtn {
+            background-color: red;
+        }
+
+        li.dropdown {
+    	    display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }       
+
         .centeredinvul1 {
             position: fixed;
             top: 35%;
@@ -64,7 +120,7 @@
             color: black;
         }
 
-        .body{
+        body {
             background-color:  #4c7579
         }
 
@@ -74,24 +130,22 @@
             height: 200%;
         }
 
-        .topnav {
-            overflow: hidden;
-            background-color: #79C99E;
-            font-size: x-large;
-        }
+       
 
         .profilepicture {
             position: fixed;
             width: 11%;
             left: 87%;
-            top: 1%;
+            top: 0.75%;
         }
     </style>
-    <body class="body">
+    <body>
+
+        <ul>
+            <li><a href="index.html">Login</a></li>
+          </ul>
         
-        <div class="topnav">
-            <h1>&nbsp;</h1>
-          </div>
+       
 
           <img src="img/profilepic.png" class="profilepicture">
 
@@ -103,7 +157,7 @@
         <p id="foutmelding" class="foutww"></p>
         <p><a href="Tracker.html">asdasds</a></p>
 
-        test 1
+        test 2
     </body>
 
     <script>
