@@ -1,10 +1,12 @@
+
 <!DOCTYPE html>
 <html>
+<head>
     <style>
-
         body {
-            background-color:  #4c7579
-        }        
+            background-color: #4c7579;
+            font-family: Arial, sans-serif;
+        }
 
         ul {
             list-style-type: none;
@@ -33,7 +35,7 @@
         }
 
         li.dropdown {
-    	    display: inline-block;
+            display: inline-block;
         }
 
         .dropdown-content {
@@ -110,7 +112,7 @@
             font-size: 255%;
             color: red;
         }
-      
+
         .centeredbutton {
             position: fixed;
             top: 65%;
@@ -135,25 +137,34 @@
             max-width: 400px;
             margin: 0 auto;
             position: fixed;
-            left: 20px;
+            left: 1%;
+            top: 20%
         }
 
         .search-box {
-            width: 100%;
+            width: 90%;
             padding: 10px;
-            font-size: 16px;
+            font-size: xx-large;
             border: 1px solid #ccc;
             border-radius: 4px;
+            box-sizing: border-box;
+            height: 100px;
+            
         }
 
         .aantal {
             position: fixed;
-            left: 200px
+            left: 200px;
         }
 
         .value-display {
             margin-top: 20px;
-            font-size: 18px;
+            color: rgb(250, 0, 0);
+            position: fixed;
+            font-size: xx-large;
+            left: 60%;
+            height: 100px;
+            top: 240px;
         }
 
         .Invullenicon {
@@ -161,87 +172,181 @@
             color: #ffffff;
         }
 
-    </style>
-    <body>
-
-        <ul>
-            <li><a href="index.html">Log uit</a></li>
-            <li class="dropdown">
-              <a href="javascript:void(0)" class="dropbtn">Historie</a>
-              <div class="dropdown-content">
-                <a href="#">21-10-22004</a>
-                <a href="#">21-10-22004</a>
-                <a href="#">21-10-22004</a>
-              </div>
-            </li>
-          </ul>
-        
-       
-
-        <img src="img/profilepic.png" class="profilepicture">
-
-        <label for="search" class="Invullenicon"> <div>voer hier in  wat je hebt gegeten vandaag:</div></label>
-        <p>&nbsp;</p>
-
-        <div class="search-container">
-            <input type="text" id="search" class="search-box" list="suggestions" placeholder="Typ om te zoeken...">
-            <datalist id="suggestions"></datalist>
-            <div id="valueDisplay" class="value-display"></div>
-        </div>
-
-         
-    </body>
-
-    <script>
-        
-        // Voorbeeld suggesties met bijbehorende waarden
-        const suggestionData = {
-            "Apple": 1,
-            "Banana": 5,
-            "Cherry": 10,
-            "Date": 15,
-            "Elderberry": 20,
-            "Fig": 25,
-            "Grape": 30,
-            "Honeydew": 35
-        };
-
-        const datalist = document.getElementById('suggestions');
-        const input = document.getElementById('search');
-        const valueDisplay = document.getElementById('valueDisplay');
-
-        input.addEventListener('input', function() {
-            // Maak de bestaande opties leeg
-            datalist.innerHTML = '';
-
-            const value = this.value.toLowerCase();
-
-            // Filter suggesties op basis van de invoerwaarde
-            const filteredSuggestions = Object.keys(suggestionData).filter(item => item.toLowerCase().includes(value));
-
-            // Voeg gefilterde suggesties toe aan de datalist
-            filteredSuggestions.forEach(item => {
-                const option = document.createElement('option');
-                option.value = item;
-                datalist.appendChild(option);
-            });
-        });
-
-        input.addEventListener('change', function() {
-            const value = this.value;
-            const suggestionValue = suggestionData[value];
-
-            if (suggestionValue !== undefined) {
-                valueDisplay.textContent = `De waarde van ${value} is ${suggestionValue * a}`;
-            } else {
-                valueDisplay.textContent = 'Geen waarde gevonden';
-            }
-        });
-
-        function aantal() {
-            let a = document.getElementById("hallo").value;
-            valueDisplay.textContent = a
+        .test {
+            width: 10%;
+            padding: 10px;
+            font-size: xx-large;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            height: 100px;
+            position: absolute;
+            left: 40%;
+            top: 20%
         }
-    </script>
 
+        .hoeveelheidzegger {
+            color: #ffffff;
+            position: absolute;
+            font-size: xx-large;
+            left: 392px;
+            top: 150px;
+        }
+    </style>
+</head>
+<body>
+
+    <ul>
+        <li><a href="index.html">Log uit</a></li>
+        <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Historie</a>
+            <div class="dropdown-content">
+                <a href="#">21-10-22004</a>
+                <a href="#">21-10-22004</a>
+                <a href="#">21-10-22004</a>
+            </div>
+        </li>
+    </ul>
+    
+    <p class="hoeveelheidzegger">aantal:</p>
+
+    <img src="img/profilepic.png" class="profilepicture">
+
+    <label for="search" class="Invullenicon"> 
+        <div>Voer hier in wat je hebt gegeten vandaag:</div>
+    </label>
+    <p>&nbsp;</p>
+
+    <div class="search-container" id="mainSearchContainer">
+        <input type="text" id="search" class="search-box" list="suggestions" placeholder="Typ om te zoeken...">
+        <datalist id="suggestions"></datalist>
+        <div id="valueDisplay" class="value-display"></div>
+    </div>
+
+    <input id="hallo" class="test">
+
+    <!-- Knop om inputvelden te kopiëren -->
+    <button onclick="kopieerInputvelden()">Kopieer inputvelden</button>
+
+</body>
+<script>
+    // Voorbeeld suggesties met bijbehorende waarden
+    const suggestionData = {
+        "Kipdijfiletstuk": 6,
+        "kipvleugel": 20,
+        "Cherry": 10,
+        "Date": 15,
+        "Elderberry": 20,
+        "Fig": 25,
+        "Grape": 30,
+        "Honeydew": 35
+    };
+
+    const datalist = document.getElementById('suggestions');
+    const input = document.getElementById('search');
+    const valueDisplay = document.getElementById('valueDisplay');
+
+    input.addEventListener('input', function() {
+        // Maak de bestaande opties leeg
+        datalist.innerHTML = '';
+
+        const value = this.value.toLowerCase();
+
+        // Filter suggesties op basis van de invoerwaarde
+        const filteredSuggestions = Object.keys(suggestionData).filter(item => item.toLowerCase().includes(value));
+
+        // Voeg gefilterde suggesties toe aan de datalist
+        filteredSuggestions.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item;
+            datalist.appendChild(option);
+        });
+    });
+
+    function aantal() {
+        const value = input.value;
+        const suggestionValue = suggestionData[value];
+        const hoeveelheid = document.getElementById("hallo").value;
+
+        if (suggestionValue !== undefined && !isNaN(hoeveelheid) && hoeveelheid !== "") {
+            valueDisplay.textContent = `${suggestionValue * parseInt(hoeveelheid)} gram`;
+        } else {
+            valueDisplay.textContent = 'Error';
+        }
+    }
+
+    // Voeg een event listener toe voor het 'keydown' event
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Voorkom dat de pagina herlaadt
+            aantal();
+        }
+    });
+
+    let kopieTeller = 1; // Teller voor het bijhouden van het aantal kopieën
+
+function kopieerInputvelden() {
+    // Maak een kopie van de zoek-container
+    const mainSearchContainer = document.getElementById('mainSearchContainer');
+    const clonedMainSearchContainer = mainSearchContainer.cloneNode(true);
+
+    // Voeg de gekloonde zoek-container toe aan de body (onderaan)
+    document.body.appendChild(clonedMainSearchContainer);
+
+    // Maak een kopie van het zoekveld
+    const searchInput = document.getElementById('search');
+    const clonedSearchInput = searchInput.cloneNode(true);
+
+    // Genereer een uniek ID voor het gekloonde zoekveld
+    const clonedSearchId = `search_${kopieTeller}`;
+
+    // Bereken de positie voor het gekloonde zoekveld
+    const searchBoundingBox = searchInput.getBoundingClientRect();
+    const newSearchPositionTop = searchBoundingBox.bottom + window.scrollY + 20 * kopieTeller; // Verschillende posities voor elke kopie
+
+    // Stel de ID, positie, breedte en hoogte in voor het gekloonde zoekveld
+    clonedSearchInput.id = clonedSearchId;
+    clonedSearchInput.style.position = 'absolute';
+    clonedSearchInput.style.top = newSearchPositionTop + 'px';
+    clonedSearchInput.style.left = searchBoundingBox.left + 'px';
+    clonedSearchInput.style.width = searchInput.offsetWidth + 'px'; // Kopieer de breedte van het originele zoekveld
+    clonedSearchInput.style.height = searchInput.offsetHeight + 'px'; // Kopieer de hoogte van het originele zoekveld
+
+    // Voeg de gekloonde zoekveld toe aan de body
+    document.body.appendChild(clonedSearchInput);
+
+    // Maak een kopie van het hoeveelheid inputveld
+    const halloInput = document.getElementById('hallo');
+    const clonedHalloInput = halloInput.cloneNode(true);
+
+    // Genereer een uniek ID voor het gekloonde hoeveelheid inputveld
+    const clonedHalloId = `hallo_${kopieTeller}`;
+
+    // Bereken de positie voor het gekloonde hoeveelheid inputveld
+    const halloBoundingBox = halloInput.getBoundingClientRect();
+    const newHalloPositionTop = halloBoundingBox.bottom + window.scrollY + 20 * kopieTeller; // Verschillende posities voor elke kopie
+
+    // Stel de ID, positie en hoogte in voor het gekloonde hoeveelheid inputveld
+    clonedHalloInput.id = clonedHalloId;
+    clonedHalloInput.style.position = 'absolute';
+    clonedHalloInput.style.top = newHalloPositionTop + 'px';
+    clonedHalloInput.style.left = halloBoundingBox.left + 'px';
+    clonedHalloInput.style.height = halloInput.offsetHeight + 'px'; // Kopieer de hoogte van het originele inputveld
+
+    // Voeg de gekloonde hoeveelheid inputveld toe aan de body
+    document.body.appendChild(clonedHalloInput);
+
+    kopieTeller++; // Verhoog de teller voor het aantal kopieën
+}
+
+
+
+
+
+
+
+
+
+</script>
 </html>
+``
