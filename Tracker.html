@@ -131,7 +131,7 @@
             color: #ffffff;
         }
 
-        .test {
+        .hoeveelheidbox {
             width: 20%;
             padding: 10px;
             font-size: xx-large;
@@ -176,12 +176,14 @@
     </label>
     <p>&nbsp;</p>
 
-    <div class="search-container">
-        <input type="text" id="search" class="search-box" list="suggestions" placeholder="Typ om te zoeken...">
-        <datalist id="suggestions"></datalist>
-        <div class="value-display"></div>
-        <input id="hallo" class="test">
-        <p id="valuedisplay" class="value-display"></p>
+    <div id="container">
+        <div class="search-container">
+            <input type="text" id="search" class="search-box" list="suggestions" placeholder="Typ om te zoeken...">
+            <datalist id="suggestions"></datalist>
+            <div class="value-display"></div>
+            <input id="hoeveelheid" class="hoeveelheidbox">
+            <p id="valuedisplay" class="value-display"></p>
+        </div>
     </div>
 
     <!-- Knop om inputvelden te kopiëren -->
@@ -200,92 +202,59 @@
             "Honeydew": 35
         };
 
-        const datalist = document.getElementById('suggestions');
+        const container = document.getElementById('container');
         const input = document.getElementById('search');
-        const halloInput = document.getElementById('hallo');
+        const hoeveelheidInput = document.getElementById('hoeveelheid');
+        const valuedisplay = document.getElementById('valuedisplay');
 
-        input.addEventListener('input', function() {
-            // Maak de bestaande opties leeg
-            datalist.innerHTML = '';
+        input.addEventListener('input', berekenWaarde);
+        hoeveelheidInput.addEventListener('input', berekenWaarde);
 
-            const value = this.value.toLowerCase();
+        function berekenWaarde() {
+            const zoekterm = input.value.trim().toLowerCase();
+            const hoeveelheid = parseInt(hoeveelheidInput.value.trim());
 
-            // Filter suggesties op basis van de invoerwaarde
-            const filteredSuggestions = Object.keys(suggestionData).filter(item => item.toLowerCase().includes(value));
+            let totaleWaarde = 0;
 
-            // Voeg gefilterde suggesties toe aan de datalist
-            filteredSuggestions.forEach(item => {
-                const option = document.createElement('option');
-                option.value = item;
-                datalist.appendChild(option);
-            });
-        });
+            if (zoekterm && hoeveelheid) {
+                // Zoekterm matchen met suggestionData
+                for (const item in suggestionData) {
+                    if (item.toLowerCase().includes(zoekterm)) {
+                        totaleWaarde += suggestionData[item] * hoeveelheid;
+                    }
+                }
+            }
 
-        let kopieTeller = 1; // Teller voor het bijhouden van het aantal kopieën
+            valuedisplay.textContent = `Totale waarde: ${totaleWaarde}`;
+        }
+
+        let copyCounter = 0;
 
         function kopieerInputvelden() {
-            // Maak een kopie van de zoek-container
-            const mainSearchContainer = document.querySelector('.search-container');
-            const clonedMainSearchContainer = mainSearchContainer.cloneNode(true);
+            const originalContainer = document.querySelector('.search-container');
+            const numCopies = 1; // Aantal kopieën dat je wilt maken
 
-            // Genereer een uniek ID voor de gekloonde zoek-container en bijbehorende elementen
-            const clonedSearchId = `search_${kopieTeller}`;
-            const clonedInputId = `hallo_${kopieTeller}`;
-            const clonedValueDisplayId = `valuedisplay_${kopieTeller}`;
+            for (let i = 0; i < numCopies; i++) {
+                const newContainer = document.createElement('div');
+                newContainer.className = 'search-container';
+                newContainer.innerHTML = originalContainer.innerHTML;
+                newContainer.style.marginTop = `${(copyCounter + i + 1) * 150}px`; // Verhoog de margin per kopie
 
-            // Geef elementen in de gekloonde zoek-container unieke ID's
-            clonedMainSearchContainer.id = clonedSearchId;
-            clonedMainSearchContainer.querySelector('.test').id = clonedInputId;
-            clonedMainSearchContainer.querySelector('.value-display').id = clonedValueDisplayId;
+                // Genereer een uniek id voor elke kopie
+                const newId = `search-container-${copyCounter + i + 1}`;
+                newContainer.setAttribute('id', newId);
 
-            // Bereken de positie voor de gekloonde zoek-container
-            const originalSearchContainerBoundingBox = mainSearchContainer.getBoundingClientRect();
-            const newSearchContainerPositionTop = originalSearchContainerBoundingBox.top + 150 * kopieTeller; // Y-coördinaat met verschil van 20px
+                // Update de id's van de inputvelden in de gekopieerde container
+                newContainer.querySelector('#search').setAttribute('id', `search-${copyCounter + i + 1}`);
+                newContainer.querySelector('#hoeveelheid').setAttribute('id', `hoeveelheid-${copyCounter + i + 1}`);
+                newContainer.querySelector('#valuedisplay').setAttribute('id', `valuedisplay-${copyCounter + i + 1}`);
 
-            // Stel de positie in voor de gekloonde zoek-container
-            clonedMainSearchContainer.style.position = 'absolute'; // Absolute positionering voor de gekloonde zoek-container
-            clonedMainSearchContainer.style.left = originalSearchContainerBoundingBox.left + 'px'; // Behoud dezelfde x-coördinaat
-            clonedMainSearchContainer.style.top = newSearchContainerPositionTop + 'px'; // Nieuwe y-coördinaat
-            clonedMainSearchContainer.style.width = mainSearchContainer.offsetWidth + 'px';
-            clonedMainSearchContainer.style.height = mainSearchContainer.offsetHeight + 'px';
+                container.appendChild(newContainer);
+            }
 
-            // Voeg de gekloonde zoek-container toe aan de body
-            document.body.appendChild(clonedMainSearchContainer);
-
-            // Genereer een nieuwe 'aantal()' functie voor deze gekloonde zoek-container
-            generateAantalFunction(clonedSearchId, clonedInputId, clonedValueDisplayId);
-
-            kopieTeller++; // Verhoog de teller voor het aantal kopieën
-        }
-
-        // Functie om een nieuwe 'aantal()' functie te genereren voor een specifieke zoek-container
-        function generateAantalFunction(searchId, inputId, valueDisplayId) {
-            const searchContainer = document.getElementById(searchId);
-            const inputElement = searchContainer.querySelector('.search-box');
-            const valueDisplay = searchContainer.querySelector('.value-display');
-            const halloInput = searchContainer.querySelector('.test');
-
-            // Nieuwe 'aantal()' functie specifiek voor deze zoek-container
-            window[`aantal_${searchId}`] = function() {
-                const value = inputElement.value;
-                const suggestionValue = suggestionData[value];
-                const hoeveelheid = document.getElementById(inputId).value;
-
-                if (suggestionValue !== undefined && !isNaN(hoeveelheid) && hoeveelheid !== "") {
-                    valueDisplay.textContent = `${suggestionValue * parseInt(hoeveelheid)} gram`;
-                } else {
-                    valueDisplay.textContent = 'Error';
-                }
-            };
-
-            // Voeg event listener toe voor het 'keydown' event specifiek voor deze zoek-container
-            document.addEventListener('keydown', function(event) {
-                if (event.key === "Enter") {
-                    event.preventDefault(); // Voorkom dat de pagina herlaadt
-                    window[`aantal_${searchId}`](); // Roep de juiste 'aantal()' functie aan
-                }
-            });
+            copyCounter += numCopies;
         }
     </script>
+
 </body>
 </html>
