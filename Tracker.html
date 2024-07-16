@@ -45,13 +45,12 @@
     
     <!-- Knop om inputvelden te kopiëren -->
     <button onclick="kopieerInputvelden()">Kopieer inputvelden</button>
+    <!-- Knop om de gegevens te downloaden -->
+    <button onclick="downloadData()">Download Gegevens</button>
 
-    <p id="totaal" class="totaalclass" ></p>
+    <p id="totaal" class="totaalclass"></p>
     <p id="nodig" class="nodig"></p>
-
-    <!-- Knop om naar tracker.html te gaan -->
-    <button onclick="location.href = 'tracker.html';">Ga naar Tracker</button>
-
+    
     <script>
         const suggestionData = {
             "Kipdijfiletstuk": 6,
@@ -84,7 +83,7 @@
             }
 
             valueDisplay.textContent = `${totaleWaarde} gram`;
-            
+
             // Update ook het totaal onderaan de pagina
             updateTotalValueDisplay();
         }
@@ -141,7 +140,7 @@
             originalContainer.style.display = 'none';
 
             kopieTeller += numCopies;
-            
+
             // Update het totaal onderaan de pagina na het kopiëren
             updateTotalValueDisplay();
         }
@@ -210,6 +209,61 @@
             const nodigDisplay = document.getElementById('nodig');
             nodigDisplay.textContent = `nodig: ${nodig} gram/${scoops} scoops `;
         }
+
+        // Functie om de ingevulde gegevens te exporteren naar een HTML-bestand
+       // Functie om de ingevulde gegevens te exporteren naar een HTML-bestand
+       function downloadData() {
+    const allSearchInputs = document.querySelectorAll('.search-box');
+    const allHoeveelheidInputs = document.querySelectorAll('.hoeveelheidbox');
+    const allValueDisplays = document.querySelectorAll('.value-display');
+
+    let data = '<!DOCTYPE html>\n<html>\n<head>\n<title>Mijn Tracker</title>\n</head>\n<body>\n';
+
+    let totalValue = 0;
+
+    for (let i = 0; i < allSearchInputs.length; i++) {
+        const searchValue = allSearchInputs[i].value;
+        const hoeveelheidValue = allHoeveelheidInputs[i].value;
+        const displayValue = allValueDisplays[i].textContent;
+
+        if (searchValue || hoeveelheidValue) {
+            const match = displayValue.match(/\d+/);
+            if (match) {
+                totalValue += parseInt(match[0]);
+            }
+            data += `<p>${searchValue}, Hoeveelheid: ${hoeveelheidValue}, Totale waarde: ${displayValue}</p>\n`;
+        }
+    }
+
+    if (data === '<!DOCTYPE html>\n<html>\n<head>\n<title>Mijn Tracker</title>\n</head>\n<body>\n') {
+        data += '<p>Geen gegevens ingevuld.</p>\n';
+    }
+
+    data += `\n<p>Totaal: ${totalValue} gram</p>\n`;
+
+    // Voeg een knop toe die naar tracker.html gaat
+    data += '<a href="tracker.html">Ga naar Tracker</a>\n';
+
+    data += '</body>\n</html>';
+
+    downloadHTML(data);
+}
+
+function downloadHTML(htmlContent) {
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'gegevens.html';
+    a.style.display = 'none'; // Verberg de link op de pagina
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+
+
+
+
     </script>
 </body>
 </html>
