@@ -21,7 +21,7 @@
     <img src="img/profilepic.png" class="profilepicture">
 
     <label for="search" class="Invullenicon"> 
-        <div>Voer hier in wat je hebt gegeten vandaag:</div>
+        <div>Voer hier in wat je hebt gegeten vandaag T1:</div>
     </label>
     <p>&nbsp;</p>
 
@@ -253,13 +253,19 @@ function downloadHTML(htmlContent) {
     const blob = new Blob([htmlContent], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
+    
+    // Huidige datum als bestandsnaam
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`;
+    a.download = `gegevens_${formattedDate}.html`;
+
     a.href = url;
-    a.download = 'gegevens.html';
     a.style.display = 'none'; // Verberg de link op de pagina
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
 }
+
 
 
 
