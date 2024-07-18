@@ -172,3 +172,7 @@ li.dropdown {
     margin-left: 70%; /* Pas de left marge aan zoals gewenst */
     margin-right: 20px;
 }
+
+.historie-link1 {
+    display: none;
+}
