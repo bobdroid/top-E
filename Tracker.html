@@ -9,7 +9,6 @@
         <li class="dropdown">
             <a href="javascript:void(0)" class="dropbtn">Historie</a>
             <div class="dropdown-content" id="dropdown-content">
-                <!-- Dynamically generated links will be inserted here -->
             </div>
         </li>
     </ul>
@@ -111,6 +110,29 @@
 
         // Call the function to generate the links
         generateHistoryLinks();
+
+        const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const app = express();
+
+app.get('/path/to/historie/files', (req, res) => {
+    const directoryPath = path.join(__dirname, 'historie');
+
+    fs.readdir(directoryPath, (err, files) => {
+        if (err) {
+            return res.status(500).json({ error: 'Unable to scan directory' });
+        }
+
+        // Return the list of files as JSON
+        res.json(files);
+    });
+});
+
+app.listen(3000, () => {
+    console.log('Server started on http://localhost:3000');
+});
+
 
 
         // Functie om inputvelden te kopiëren
