@@ -32,7 +32,7 @@
     <img src="img/profilepic.png" class="profilepicture">
 
     <label for="search" class="Invullenicon"> 
-        <div>Voer hier in wat je hebt gegeten vandaag T6:</div>
+        <div>Voer hier in wat je hebt gegeten vandaag T7:</div>
     </label>
     <p>&nbsp;</p>
 
@@ -232,6 +232,302 @@
     const allHoeveelheidInputs = document.querySelectorAll('.hoeveelheidbox');
     const allValueDisplays = document.querySelectorAll('.value-display');
 
+    // Begin met de HTML-structuur
+    let data = `<!DOCTYPE html>
+<html>
+<head>
+    <title>Mijn Tracker</title>
+    <style>
+        body {
+            background-color: #4c7579;
+            font-family: Arial, sans-serif;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #38444d;
+        }
+
+        li {
+            float: left;
+            height: 119px;
+        }
+
+        li a, .dropbtn {
+            display: inline-block;
+            color: white;
+            text-align: absolute;
+            padding: 30px 16px;
+            text-decoration: none;
+            font-size: xxx-large;
+        }
+
+        li a:hover, .dropdown:hover .dropbtn {
+            background-color: #79C99E;
+        }
+
+        li.dropdown {
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .foutww {
+            position: fixed;
+            top: 50%;
+            left: 15%;
+            margin-top: -50px;
+            margin-left: -100px;
+            font-size: 255%;
+            color: red;
+        }
+
+        .centeredbutton {
+            position: fixed;
+            top: 65%;
+            left: 25%;
+            background-color: #79C99E;
+            margin-top: -50px;
+            margin-left: -100px;
+            width: 70%;
+            height: 20%;
+            font-size: xxx-large;
+            color: black;
+        }
+
+        .profilepicture {
+            position: fixed;
+            width: 11%;
+            left: 87%;
+            top: 0.75%;
+        }
+
+        .search-container {
+            max-width: 400px;
+            margin: 0 auto;
+            position: fixed;
+            left: 1%;
+            top: 20%;
+        }
+
+        .search-box {
+            width: 90%;
+            padding: 10px;
+            font-size: xx-large;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>\n`;
+
+    let totalValue = 0;
+
+    // Voeg navigatiebalk toe
+    data += `<ul>
+        <li><a href="index.html">Log uit</a></li>
+        <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Historie</a>
+            <div class="dropdown-content">
+`;
+
+    // Voeg historie links toe
+    const startDate = new Date('2024-07-18');
+    const endDate = new Date('2024-07-31');
+    const today = new Date();
+
+    for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
+        const dateString = date.toISOString().split('T')[0];
+        const displayDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
+        
+        if (date <= today) {
+            data += `<a href="historie/${dateString}.html" class="historie-link" data-date="${displayDate}">${displayDate}.html</a>\n`;
+        }
+    }
+
+    data += `           </div>
+        </li>
+    </ul>\n`;
+
+    // Loop door alle invoervelden en displays
+    for (let i = 0; i < allSearchInputs.length; i++) {
+        const searchValue = allSearchInputs[i].value;
+        const hoeveelheidValue = allHoeveelheidInputs[i].value;
+        const displayValue = allValueDisplays[i].textContent;
+
+        // Controleer of er gegevens zijn ingevuld
+        if (searchValue || hoeveelheidValue) {
+            // Bereken totale waarde indien mogelijk
+            const match = displayValue.match(/\d+/);
+            if (match) {
+                totalValue += parseInt(match[0]);
+            }
+            // Voeg ingevulde gegevens toe aan de HTML
+            data += `<p>${searchValue}, Hoeveelheid: ${hoeveelheidValue}, Totale waarde: ${displayValue}</p>\n`;
+        }
+    }
+
+    // Voeg bericht toe als er geen gegevens zijn ingevuld
+    if (data === `<!DOCTYPE html>\n<html>\n<head>\n    <title>Mijn Tracker</title>\n    <style> body {
+    background-color: #4c7579;
+    font-family: Arial, sans-serif;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #38444d;
+}
+
+li {
+    float: left;
+    height: 119px;
+}
+
+li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: absolute;
+    padding: 30px 16px;
+    text-decoration: none;
+    font-size: xxx-large;
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+    background-color: #79C99E;
+}
+
+li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}       
+
+.foutww {
+    position: fixed;
+    top: 50%;
+    left: 15%;
+    margin-top: -50px;
+    margin-left: -100px;
+    font-size: 255%;
+    color: red;
+}
+
+.centeredbutton {
+    position: fixed;
+    top: 65%;
+    left: 25%;
+    background-color: #79C99E;
+    margin-top: -50px;
+    margin-left: -100px;
+    width: 70%;
+    height: 20%;
+    font-size: xxx-large;
+    color: black;
+}
+
+.profilepicture {
+    position: fixed;
+    width: 11%;
+    left: 87%;
+    top: 0.75%;
+}
+
+.search-container {
+    max-width: 400px;
+    margin: 0 auto;
+    position: fixed;
+    left: 1%;
+    top: 20%
+}
+
+.search-box {
+    width: 90%;
+    padding: 10px;
+    font-size: xx-large;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 100px;
+    
+}
+
+</style>
+</head>
+<body>\n`) {
+        data += '<p>Geen gegevens ingevuld.</p>\n';
+    }
+
+    // Voeg totaalwaarde toe
+    data += `\n<p>Totaal: ${totalValue} gram</p>\n`;
+
+    // Voeg link toe naar tracker.html
+    data += '<a href="tracker.html">Ga naar Tracker</a>\n';
+
+    // Sluit de HTML-structuur af
+    data += '</body>\n</html>';
+
+    // Roep de functie aan om HTML te downloaden
+    downloadHTML(data);
+}
+    // Selecteer alle invoervelden en displays
+    const allSearchInputs = document.querySelectorAll('.search-box');
+    const allHoeveelheidInputs = document.querySelectorAll('.hoeveelheidbox');
+    const allValueDisplays = document.querySelectorAll('.value-display');
+
     // Begin met de HTML-structuur inclusief CSS-link
     let data = `<!DOCTYPE html>
 <html>
@@ -412,7 +708,7 @@ li.dropdown {
 
     // Roep de functie aan om HTML te downloaden
     downloadHTML(data);
-}
+
 
 
 function downloadHTML(htmlContent) {
