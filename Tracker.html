@@ -32,7 +32,7 @@
     <img src="img/profilepic.png" class="profilepicture">
 
     <label for="search" class="Invullenicon"> 
-        <div>Voer hier in wat je hebt gegeten vandaag T8:</div>
+        <div>Voer hier in wat je hebt gegeten vandaag T9:</div>
     </label>
     <p>&nbsp;</p>
 
@@ -730,11 +730,13 @@ li.dropdown {
 
 // Event listener voor de download knop
 const downloadButton = document.getElementById('downloadButton'); // ID van de download knop
-downloadButton.addEventListener('click', function() {
-    // Hier roep je downloadHTML aan met de juiste HTML-content die je wilt downloaden
+downloadButton.addEventListener('click', function(event) {
+    event.preventDefault(); // Voorkom standaard gedrag van de knop
     const htmlContent = generateHTML(); // Vervang generateHTML() met je eigen logica om HTML-content te genereren
     downloadHTML(htmlContent);
 });
+
+
 
 
 
