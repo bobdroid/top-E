@@ -57,7 +57,7 @@
     <!-- Knop om inputvelden te kopiëren -->
     <button onclick="kopieerInputvelden()">Kopieer inputvelden</button>
     <!-- Knop om de gegevens te downloaden -->
-    <button onclick="downloadData()">Download Gegevens</button>
+    <button onclick="downloadData()" id="downloadButton ">Download Gegevens</button>
 
     <p id="totaal" class="totaalclass"></p>
     <p id="nodig" class="nodig"></p>
@@ -711,7 +711,7 @@ li.dropdown {
 
 
 
-function downloadHTML(htmlContent) {
+    function downloadHTML(htmlContent) {
     const blob = new Blob([htmlContent], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -727,6 +727,14 @@ function downloadHTML(htmlContent) {
     a.click();
     document.body.removeChild(a);
 }
+
+// Event listener voor de download knop
+const downloadButton = document.getElementById('downloadButton'); // ID van de download knop
+downloadButton.addEventListener('click', function() {
+    // Hier roep je downloadHTML aan met de juiste HTML-content die je wilt downloaden
+    const htmlContent = generateHTML(); // Vervang generateHTML() met je eigen logica om HTML-content te genereren
+    downloadHTML(htmlContent);
+});
 
 
 
