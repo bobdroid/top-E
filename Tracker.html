@@ -32,7 +32,7 @@
     <img src="img/profilepic.png" class="profilepicture">
 
     <label for="search" class="Invullenicon"> 
-        <div>Voer hier in wat je hebt gegeten vandaag T9:</div>
+        <div>Voer hier in wat je hebt gegeten vandaag T10:</div>
     </label>
     <p>&nbsp;</p>
 
@@ -711,7 +711,14 @@ li.dropdown {
 
 
 
-    function downloadHTML(htmlContent) {
+    let downloadAllowed = false; // Variabele om bij te houden of downloaden is toegestaan
+
+function downloadHTML(htmlContent) {
+    if (!downloadAllowed) {
+        console.log('Download is niet toegestaan zonder op de knop te drukken.');
+        return;
+    }
+
     const blob = new Blob([htmlContent], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -726,15 +733,21 @@ li.dropdown {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+
+    downloadAllowed = false; // Reset de variabele na de download
 }
 
 // Event listener voor de download knop
 const downloadButton = document.getElementById('downloadButton'); // ID van de download knop
 downloadButton.addEventListener('click', function(event) {
     event.preventDefault(); // Voorkom standaard gedrag van de knop
+
+    downloadAllowed = true; // Zet downloadAllowed op true
+
     const htmlContent = generateHTML(); // Vervang generateHTML() met je eigen logica om HTML-content te genereren
     downloadHTML(htmlContent);
 });
+
 
 
 
