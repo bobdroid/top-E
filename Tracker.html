@@ -224,11 +224,9 @@
             nodigDisplay.textContent = `nodig: ${nodig} gram/${scoops} scoops `;
         }
 
-        // Functie om de ingevulde gegevens te exporteren naar een HTML-bestand
-       // Functie om de ingevulde gegevens te exporteren naar een HTML-bestand
-       function downloadData() {
-    // Selecteer alle invoervelden en displays
-    const allSearchInputs = document.querySelectorAll('.search-box');
+       function downloadData() { 
+        if(a=true) {
+            const allSearchInputs = document.querySelectorAll('.search-box');
     const allHoeveelheidInputs = document.querySelectorAll('.hoeveelheidbox');
     const allValueDisplays = document.querySelectorAll('.value-display');
 
@@ -708,6 +706,11 @@ li.dropdown {
 
     // Roep de functie aan om HTML te downloaden
     downloadHTML(data);
+        
+       }
+        
+    // Selecteer alle invoervelden en displays
+    
 
 
 
