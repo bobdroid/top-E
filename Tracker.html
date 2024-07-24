@@ -32,7 +32,7 @@
     <img src="img/profilepic.png" class="profilepicture">
 
     <label for="search" class="Invullenicon"> 
-        <div>Voer hier in wat je hebt gegeten vandaag T10:</div>
+        <div>Voer hier in wat je hebt gegeten vandaag T11:</div>
     </label>
     <p>&nbsp;</p>
 
@@ -57,7 +57,7 @@
     <!-- Knop om inputvelden te kopiëren -->
     <button onclick="kopieerInputvelden()">Kopieer inputvelden</button>
     <!-- Knop om de gegevens te downloaden -->
-    <button onclick="downloadData()" id="downloadButton ">Download Gegevens</button>
+    <button onclick="jamalaan()" id="downloadButton ">Download Gegevens</button>
 
     <p id="totaal" class="totaalclass"></p>
     <p id="nodig" class="nodig"></p>
@@ -224,8 +224,16 @@
             nodigDisplay.textContent = `nodig: ${nodig} gram/${scoops} scoops `;
         }
 
-       function downloadData() { 
-        if(a=true) {
+       function jamalaan() {
+        let jamal = true
+        downloadData()
+        return jamal == false
+       }
+       
+       
+       
+        function downloadData() { 
+        if(jamal=true) {
             const allSearchInputs = document.querySelectorAll('.search-box');
     const allHoeveelheidInputs = document.querySelectorAll('.hoeveelheidbox');
     const allValueDisplays = document.querySelectorAll('.value-display');
