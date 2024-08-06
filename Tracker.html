@@ -25,6 +25,7 @@
                 <a href="historie/2024-08-14.html" class="historie-link" data-date="2024-08-14">2024-08-14</a>
                 <a href="historie/2024-08-15.html" class="historie-link" data-date="2024-08-15">2024-08-15</a>
             </div>
+            <a href="opties.html" class="dropbtn">opties</a>
         </li>
     </ul>
     
@@ -112,8 +113,33 @@ function voegNieuweOptieToe() {
     loadSuggestions();
 }
 
-loadSuggestions();
-      
+function exportOptions() {
+        let data = '<!DOCTYPE html>\n<html>\n<head>\n<title>Opties</title>\n</head>\n<body>\n';
+        data += '<h1>Opties</h1>\n<ul>\n';
+
+        for (const item in suggestionData) {
+            data += `<li>${item}: ${suggestionData[item]}</li>\n`;
+        }
+
+        data += '</ul>\n</body>\n</html>';
+
+        const blob = new Blob([data], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'opties.html';
+        a.style.display = 'none'; // Verberg de link op de pagina
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+
+    // Call the exportOptions function when the page loads
+    window.onload = function() {
+        exportOptions();
+    };
+    
+    loadSuggestions();
         let kopieTeller = 0; // Teller voor het bijhouden van het aantal kopieën
         let isFirstCloneAdded = false; // Flag om bij te houden of de eerste clone is toegevoegd
 
