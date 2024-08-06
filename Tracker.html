@@ -33,7 +33,7 @@
     <img src="img/profilepic.png" class="profilepicture">
 
     <label for="search" class="Invullenicon"> 
-        <div>Voer hier in wat je hebt gegeten vandaag T13:</div>
+        <div>Voer hier in wat je hebt gegeten vandaag T14:</div>
     </label>
     <p>&nbsp;</p>
 
@@ -64,7 +64,7 @@
     <p id="nodig" class="nodig"></p>
     
     <script>
-        const suggestionData = {
+         const suggestionData = {
             "Kipdijfiletstuk": 6,
             "kipvleugel": 20,
             "Cherry": 10,
@@ -74,6 +74,43 @@
             "Grape": 30,
             "Honeydew": 35
         };
+
+        function voegNieuweOptieToe() {
+            // Vraag de gebruiker om de naam van de nieuwe optie
+            const naam = prompt("Voer de naam van de nieuwe optie in:");
+
+            // Controleer of de gebruiker een geldige naam heeft ingevoerd
+            if (!naam) {
+                alert("Naam mag niet leeg zijn.");
+                return;
+            }
+
+            // Vraag de gebruiker om de waarde van de nieuwe optie
+            const waarde = prompt(`Voer de waarde voor ${naam} in:`);
+
+            // Controleer of de gebruiker een geldige waarde heeft ingevoerd
+            if (isNaN(waarde) || waarde.trim() === "") {
+                alert("Voer een geldige numerieke waarde in.");
+                return;
+            }
+
+            // Voeg de nieuwe optie toe aan het suggestionData object
+            suggestionData[naam] = parseInt(waarde);
+
+            // Creëer een nieuwe <option> element
+            const nieuweOptie = document.createElement('option');
+            nieuweOptie.value = naam;
+
+            // Voeg de nieuwe <option> toe aan de <datalist>
+            const suggestionList = document.getElementById('suggestions');
+            suggestionList.appendChild(nieuweOptie);
+        }
+
+        // Voeg een knop toe om de functie aan te roepen
+        const knop = document.createElement('button');
+        knop.textContent = 'Voeg nieuwe optie toe';
+        knop.onclick = voegNieuweOptieToe;
+        document.body.appendChild(knop);
 
         let kopieTeller = 0; // Teller voor het bijhouden van het aantal kopieën
         let isFirstCloneAdded = false; // Flag om bij te houden of de eerste clone is toegevoegd
