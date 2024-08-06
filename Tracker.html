@@ -33,7 +33,7 @@
     <img src="img/profilepic.png" class="profilepicture">
 
     <label for="search" class="Invullenicon"> 
-        <div>Voer hier in wat je hebt gegeten vandaag T15:</div>
+        <div>Voer hier in wat je hebt gegeten vandaag T16:</div>
     </label>
     <p>&nbsp;</p>
 
@@ -59,6 +59,7 @@
     <button onclick="kopieerInputvelden()">Kopieer inputvelden</button>
     <!-- Knop om de gegevens te downloaden -->
     <button onclick="jamalaan()" id="downloadButton ">Download Gegevens</button>
+    <button onclick="voegNieuweOptieToe()">buhbuhbuh</button>
 
     <p id="totaal" class="totaalclass"></p>
     <p id="nodig" class="nodig"></p>
@@ -106,12 +107,7 @@
             suggestionList.appendChild(nieuweOptie);
         }
 
-        // Voeg een knop toe om de functie aan te roepen
-        const knop = document.createElement('button');
-        knop.textContent = 'Voeg nieuwe optie toe';
-        knop.onclick = voegNieuweOptieToe;
-        document.body.appendChild(knop);
-
+      
         let kopieTeller = 0; // Teller voor het bijhouden van het aantal kopieën
         let isFirstCloneAdded = false; // Flag om bij te houden of de eerste clone is toegevoegd
 
