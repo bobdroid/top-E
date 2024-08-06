@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Opties</title>
+</head>
+<body>
+    <h1>Opties</h1>
+    <ul id="options-list">
+        <!-- Hier worden de opties dynamisch toegevoegd door het script -->
+    </ul>
+    <script>
+        // suggestionData ophalen uit lokale opslag
+        const suggestionData = JSON.parse(localStorage.getItem('suggestionData')) || {};
+
+        // Ul element referentie
+        const optionsList = document.getElementById('options-list');
+
+        // Voeg de opties toe aan de ul
+        for (const item in suggestionData) {
+            const li = document.createElement('li');
+            li.textContent = `${item}: ${suggestionData[item]}`;
+            optionsList.appendChild(li);
+        }
+    </script>
+</body>
+</html>
