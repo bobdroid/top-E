@@ -5,7 +5,7 @@
 </head>    
 <body>
     <ul>
-        <li><a href="index.html">Log uit</a></li>
+        <li><a href="index.html">Log uit v1</a></li>
         <li class="dropdown">
             <a href="javascript:void(0)" class="dropbtn">Historie</a>
             <div class="dropdown-content">
@@ -27,9 +27,10 @@
             </div>
         <li><a href="opties.html" class="dropbtn">opties</a></li>
     </ul>
-    <ul id="options-list">
-        <!-- De opties worden hier dynamisch geladen -->
-    </ul>
+
+
+    <p id="options-list">
+    </p>
     <script>
         // Ophalen van de opgeslagen suggestionData vanuit localStorage
         const suggestionData = JSON.parse(localStorage.getItem('suggestionData')) || {};
