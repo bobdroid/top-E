@@ -33,7 +33,7 @@
     <img src="img/profilepic.png" class="profilepicture">
 
     <label for="search" class="Invullenicon"> 
-        <div>Voer hier in wat je hebt gegeten vandaag T19:</div>
+        <div>Voer hier in wat je hebt gegeten vandaag T20:</div>
     </label>
     <p>&nbsp;</p>
 
@@ -65,78 +65,51 @@
     <p id="nodig" class="nodig"></p>
     
     <script>
-         const suggestionDataKey = 'suggestionData';
+          let suggestionData = JSON.parse(localStorage.getItem('suggestionData')) || {
+            "Kipdijfiletstuk": 6,
+            "kipvleugel": 20,
+            "Cherry": 10,
+            "Date": 15,
+            "Elderberry": 20,
+            "Fig": 25,
+            "Grape": 30,
+            "Honeydew": 35
+        };
 
-// Initialiseer suggestionData vanuit localStorage of gebruik de standaardwaarden
-let suggestionData = JSON.parse(localStorage.getItem(suggestionDataKey)) || {
-    "Kipdijfiletstuk": 6,
-    "kipvleugel": 20,
-    "Cherry": 10,
-    "Date": 15,
-    "Elderberry": 20,
-    "Fig": 25,
-    "Grape": 30,
-    "Honeydew": 35
-};
+        // Functie om nieuwe opties toe te voegen
+        function voegOptieToe() {
+            const naam = prompt("Voer de naam van het nieuwe item in:");
+            const waarde = prompt(`Voer de waarde in gram in voor ${naam}:`);
 
-function loadSuggestions() {
-    const suggestionList = document.getElementById('suggestions');
-    suggestionList.innerHTML = ''; // Wis bestaande opties
+            if (naam && waarde && !isNaN(waarde)) {
+                suggestionData[naam] = parseInt(waarde);
 
-    for (const item in suggestionData) {
-        const option = document.createElement('option');
-        option.value = item;
-        suggestionList.appendChild(option);
-    }
-}
+                // Opslaan van de bijgewerkte suggestionData in localStorage
+                localStorage.setItem('suggestionData', JSON.stringify(suggestionData));
 
-function saveSuggestionData() {
-    localStorage.setItem(suggestionDataKey, JSON.stringify(suggestionData));
-}
-
-function voegNieuweOptieToe() {
-    const naam = prompt("Voer de naam van de nieuwe optie in:");
-    if (!naam) {
-        alert("Naam mag niet leeg zijn.");
-        return;
-    }
-
-    const waarde = prompt(`Voer de waarde voor ${naam} in:`);
-    if (isNaN(waarde) || waarde.trim() === "") {
-        alert("Voer een geldige numerieke waarde in.");
-        return;
-    }
-
-    suggestionData[naam] = parseInt(waarde);
-    saveSuggestionData();
-    loadSuggestions();
-}
-
-function exportOptions() {
-        let data = '<!DOCTYPE html>\n<html>\n<head>\n<title>Opties</title>\n</head>\n<body>\n';
-        data += '<h1>Opties</h1>\n<ul>\n';
-
-        for (const item in suggestionData) {
-            data += `<li>${item}: ${suggestionData[item]}</li>\n`;
+                // Voeg de nieuwe optie toe aan de datalist
+                const option = document.createElement('option');
+                option.value = naam;
+                document.getElementById('suggestions').appendChild(option);
+            } else {
+                alert("Ongeldige invoer. Probeer opnieuw.");
+            }
         }
 
-        data += '</ul>\n</body>\n</html>';
+        // Opties toevoegen aan de datalist bij het laden van de pagina
+        function vulDatalist() {
+            const datalist = document.getElementById('suggestions');
+            datalist.innerHTML = ''; // Leeg de datalist eerst
 
-        const blob = new Blob([data], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'opties.html';
-        a.style.display = 'none'; // Verberg de link op de pagina
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    }
+            for (const item in suggestionData) {
+                const option = document.createElement('option');
+                option.value = item;
+                datalist.appendChild(option);
+            }
+        }
 
-    // Call the exportOptions function when the page loads
-    window.onload = function() {
-        exportOptions();
-    };
+        // Vul de datalist bij het laden van de pagina
+        document.addEventListener('DOMContentLoaded', vulDatalist);
     
     loadSuggestions();
         let kopieTeller = 0; // Teller voor het bijhouden van het aantal kopieën
