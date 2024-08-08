@@ -11,6 +11,21 @@ body {
     background-color: #38444d;
 }
 
+ul.opties {
+    list-style-type: none; /* Verwijdert de standaard bullet points */
+    padding: 0;            /* Verwijdert de standaard padding van de lijst */
+    margin: 0;             /* Verwijdert de standaard marge van de lijst */
+}
+
+ul.opties li {
+    padding: 10px 0;       /* Voegt ruimte toe tussen de lijstitems */
+    border-bottom: 1px solid #ccc; /* Voegt een scheidingslijn toe tussen de items */
+}
+
+ul.opties li:last-child {
+    border-bottom: none;   /* Verwijdert de scheidingslijn bij het laatste item */
+}
+
 li {
     float: left;
     height: 119px;
