@@ -62,6 +62,21 @@
     .navbar .dropdown-content a:hover {
         background-color: #f1f1f1;
     }
+
+    /* Stijlen voor de delete button */
+.opties button {
+    background-color: #ff4d4d;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: small;
+}
+
+.opties button:hover {
+    background-color: #ff0000;
+}
+
 </style>
 <body>
 
@@ -72,7 +87,19 @@
             <div class="dropdown-content">
                 <a href="historie/2024-08-01.html" class="historie-link" data-date="2024-08-01">2024-08-01</a>
                 <a href="historie/2024-08-02.html" class="historie-link" data-date="2024-08-02">2024-08-02</a>
-                
+                <a href="historie/2024-08-03.html" class="historie-link" data-date="2024-08-03">2024-08-03</a>
+                <a href="historie/2024-08-04.html" class="historie-link" data-date="2024-08-04">2024-08-04</a>
+                <a href="historie/2024-08-05.html" class="historie-link" data-date="2024-08-05">2024-08-05</a>
+                <a href="historie/2024-08-06.html" class="historie-link" data-date="2024-08-06">2024-08-06</a>
+                <a href="historie/2024-08-07.html" class="historie-link" data-date="2024-08-07">2024-08-07</a>
+                <a href="historie/2024-08-08.html" class="historie-link" data-date="2024-08-08">2024-08-08</a>
+                <a href="historie/2024-08-09.html" class="historie-link" data-date="2024-08-09">2024-08-09</a>
+                <a href="historie/2024-08-10.html" class="historie-link" data-date="2024-08-10">2024-08-10</a>
+                <a href="historie/2024-08-11.html" class="historie-link" data-date="2024-08-11">2024-08-11</a>
+                <a href="historie/2024-08-12.html" class="historie-link" data-date="2024-08-12">2024-08-12</a>
+                <a href="historie/2024-08-13.html" class="historie-link" data-date="2024-08-13">2024-08-13</a>
+                <a href="historie/2024-08-14.html" class="historie-link" data-date="2024-08-14">2024-08-14</a>
+                <a href="historie/2024-08-15.html" class="historie-link" data-date="2024-08-15">2024-08-15</a>
             </div>
         <li><a href="opties.html" class="dropbtn">opties</a></li>
     </ul>
@@ -82,18 +109,48 @@
     </ul>
 
     <script>
-        // suggestionData ophalen uit lokale opslag
-        const suggestionData = JSON.parse(localStorage.getItem('suggestionData')) || {};
+         // suggestionData ophalen uit lokale opslag
+         const suggestionData = JSON.parse(localStorage.getItem('suggestionData')) || {};
 
-        // Ul element referentie
-        const optionsList = document.getElementById('options-list');
+// Ul element referentie
+const optionsList = document.getElementById('options-list');
 
-        // Voeg de opties toe aan de ul
-        for (const item in suggestionData) {
-            const li = document.createElement('li');
-            li.textContent = `${item}: ${suggestionData[item]}`;
-            optionsList.appendChild(li);
-        }
+// Voeg de opties toe aan de ul
+for (const item in suggestionData) {
+    const li = document.createElement('li');
+    li.textContent = `${item}: ${suggestionData[item]}`;
+    
+    // Maak een delete button aan
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = "Verwijder";
+    deleteBtn.style.marginLeft = "10px";
+
+    // Voeg een event listener toe aan de delete button
+    deleteBtn.addEventListener('click', function() {
+        deleteOption(item);
+    });
+
+    // Voeg de delete button toe aan de li
+    li.appendChild(deleteBtn);
+
+    // Voeg de li toe aan de ul
+    optionsList.appendChild(li);
+}
+
+// Functie om een optie te verwijderen
+function deleteOption(optionName) {
+    // Verwijder de optie uit suggestionData
+    delete suggestionData[optionName];
+
+    // Sla de bijgewerkte suggestionData op in de lokale opslag
+    localStorage.setItem('suggestionData', JSON.stringify(suggestionData));
+
+    // Verwijder de li van de ul
+    const listItem = document.querySelector(`li:contains('${optionName}')`);
+    if (listItem) {
+        listItem.remove();
+    }
+}
     </script>
 </body>
 </html>
