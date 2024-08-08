@@ -109,48 +109,47 @@
     </ul>
 
     <script>
-         // suggestionData ophalen uit lokale opslag
-         const suggestionData = JSON.parse(localStorage.getItem('suggestionData')) || {};
+        // suggestionData ophalen uit lokale opslag
+        const suggestionData = JSON.parse(localStorage.getItem('suggestionData')) || {};
 
-// Ul element referentie
-const optionsList = document.getElementById('options-list');
+        // Ul element referentie
+        const optionsList = document.getElementById('options-list');
 
-// Voeg de opties toe aan de ul
-for (const item in suggestionData) {
-    const li = document.createElement('li');
-    li.textContent = `${item}: ${suggestionData[item]}`;
-    
-    // Maak een delete button aan
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = "Verwijder";
-    deleteBtn.style.marginLeft = "10px";
+        // Voeg de opties toe aan de ul
+        for (const item in suggestionData) {
+            const li = document.createElement('li');
+            li.textContent = `${item}: ${suggestionData[item]}`;
+            
+            // Maak een delete button aan
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = "Verwijder";
+            deleteBtn.style.marginLeft = "10px";
 
-    // Voeg een event listener toe aan de delete button
-    deleteBtn.addEventListener('click', function() {
-        deleteOption(item);
-    });
+            // Voeg een event listener toe aan de delete button
+            deleteBtn.addEventListener('click', function() {
+                deleteOption(item, li);
+            });
 
-    // Voeg de delete button toe aan de li
-    li.appendChild(deleteBtn);
+            // Voeg de delete button toe aan de li
+            li.appendChild(deleteBtn);
 
-    // Voeg de li toe aan de ul
-    optionsList.appendChild(li);
-}
+            // Voeg de li toe aan de ul
+            optionsList.appendChild(li);
+        }
 
-// Functie om een optie te verwijderen
-function deleteOption(optionName) {
-    // Verwijder de optie uit suggestionData
-    delete suggestionData[optionName];
+        // Functie om een optie te verwijderen
+        function deleteOption(optionName, listItem) {
+            // Verwijder de optie uit suggestionData
+            delete suggestionData[optionName];
 
-    // Sla de bijgewerkte suggestionData op in de lokale opslag
-    localStorage.setItem('suggestionData', JSON.stringify(suggestionData));
+            // Sla de bijgewerkte suggestionData op in de lokale opslag
+            localStorage.setItem('suggestionData', JSON.stringify(suggestionData));
 
-    // Verwijder de li van de ul
-    const listItem = document.querySelector(`li:contains('${optionName}')`);
-    if (listItem) {
-        listItem.remove();
-    }
-}
+            // Verwijder de li van de ul
+            if (listItem) {
+                listItem.remove();
+            }
+        }
     </script>
 </body>
 </html>
