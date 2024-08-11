@@ -33,7 +33,7 @@
     <img src="img/profilepic.png" class="profilepicture">
 
     <label for="search" class="Invullenicon"> 
-        <div>Voer hier in wat je hebt gegeten vandaag T24:</div>
+        <div>Voer hier in wat je hebt gegeten vandaag T26:</div>
     </label>
     <p>&nbsp;</p>
 
@@ -119,9 +119,6 @@
 let kopieTeller = 0; // Teller voor het bijhouden van het aantal kopieën
 let isFirstCloneAdded = false; // Flag om bij te houden of de eerste clone is toegevoegd
 
-// Roep de functie op om suggesties te laden
-loadSuggestions();
-
 // Functie om value display bij te werken
 function updateValueDisplay(searchInput, hoeveelheidInput, valueDisplay) {
     const zoekterm = searchInput.value.trim().toLowerCase();
@@ -138,10 +135,7 @@ function updateValueDisplay(searchInput, hoeveelheidInput, valueDisplay) {
         }
     }
 
-    // Toon het resultaat
     valueDisplay.textContent = `${totaleWaarde} gram`;
-
-    // Update het totaal onderaan de pagina
     updateTotalValueDisplay();
 }
 
@@ -157,73 +151,41 @@ function kopieerInputvelden() {
         isFirstCloneAdded = true;
     }
 
-    const numCopies = 1;
+    const newContainer = originalContainer.cloneNode(true);
+    kopieTeller++;
 
-    for (let i = 0; i < numCopies; i++) {
-        const newContainer = document.createElement('div');
-        newContainer.className = 'search-container';
-        newContainer.innerHTML = originalContainer.innerHTML;
-        newContainer.style.marginTop = `${(kopieTeller + i + 1) * 150}px`;
-
-        const newSearchId = `search-${kopieTeller + i + 1}`;
-        const newHoeveelheidId = `hoeveelheid-${kopieTeller + i + 1}`;
-        const newValueDisplayId = `valuedisplay-${kopieTeller + i + 1}`;
-
-        const newSearchInput = newContainer.querySelector('.search-box');
-        const newHoeveelheidInput = newContainer.querySelector('.hoeveelheidbox');
-        const newValueDisplay = newContainer.querySelector('.value-display');
-
-        newSearchInput.setAttribute('id', newSearchId);
-        newHoeveelheidInput.setAttribute('id', newHoeveelheidId);
-        newValueDisplay.setAttribute('id', newValueDisplayId);
-
-        // Debugging: console log voor controle
-        console.log(`Created new inputs with IDs: ${newSearchId}, ${newHoeveelheidId}, ${newValueDisplayId}`);
-
-        newSearchInput.addEventListener('input', function() {
-            updateValueDisplay(newSearchInput, newHoeveelheidInput, newValueDisplay);
-        });
-
-        newHoeveelheidInput.addEventListener('input', function() {
-            updateValueDisplay(newSearchInput, newHoeveelheidInput, newValueDisplay);
-        });
-
-        container.appendChild(newContainer);
-    }
-
-    originalContainer.style.display = 'none';
-    kopieTeller += numCopies;
-
-    // Update het totaal onderaan de pagina na het kopiëren
-    updateTotalValueDisplay();
-}
-
-// Functie om de eerste clone toe te voegen op de plek van de originele container
-function addFirstClone(originalContainer) {
-    const newContainer = document.createElement('div');
-    newContainer.className = 'search-container';
-    newContainer.innerHTML = originalContainer.innerHTML;
-
-    const newSearchId = `search-${kopieTeller + 1}`;
-    const newHoeveelheidId = `hoeveelheid-${kopieTeller + 1}`;
-    const newValueDisplayId = `valuedisplay-${kopieTeller + 1}`;
+    const newSearchId = `search-${kopieTeller}`;
+    const newHoeveelheidId = `hoeveelheid-${kopieTeller}`;
+    const newValueDisplayId = `valuedisplay-${kopieTeller}`;
 
     const newSearchInput = newContainer.querySelector('.search-box');
     const newHoeveelheidInput = newContainer.querySelector('.hoeveelheidbox');
     const newValueDisplay = newContainer.querySelector('.value-display');
 
-    newSearchInput.setAttribute('id', newSearchId);
-    newHoeveelheidInput.setAttribute('id', newHoeveelheidId);
-    newValueDisplay.setAttribute('id', newValueDisplayId);
+    newSearchInput.id = newSearchId;
+    newHoeveelheidInput.id = newHoeveelheidId;
+    newValueDisplay.id = newValueDisplayId;
 
-    // Voeg event listeners toe voor input velden om de waarde direct bij te werken
-    newSearchInput.addEventListener('input', function() {
-        updateValueDisplay(newSearchInput, newHoeveelheidInput, newValueDisplay);
-    });
+    // Verwijder oude event listeners en voeg nieuwe toe
+    newSearchInput.addEventListener('input', () => updateValueDisplay(newSearchInput, newHoeveelheidInput, newValueDisplay));
+    newHoeveelheidInput.addEventListener('input', () => updateValueDisplay(newSearchInput, newHoeveelheidInput, newValueDisplay));
 
-    newHoeveelheidInput.addEventListener('input', function() {
-        updateValueDisplay(newSearchInput, newHoeveelheidInput, newValueDisplay);
-    });
+    container.appendChild(newContainer);
+    originalContainer.style.display = 'none';
+
+    updateTotalValueDisplay();
+}
+
+// Functie om de eerste clone toe te voegen op de plek van de originele container
+function addFirstClone(originalContainer) {
+    const newContainer = originalContainer.cloneNode(true);
+
+    const newSearchInput = newContainer.querySelector('.search-box');
+    const newHoeveelheidInput = newContainer.querySelector('.hoeveelheidbox');
+    const newValueDisplay = newContainer.querySelector('.value-display');
+
+    newSearchInput.addEventListener('input', () => updateValueDisplay(newSearchInput, newHoeveelheidInput, newValueDisplay));
+    newHoeveelheidInput.addEventListener('input', () => updateValueDisplay(newSearchInput, newHoeveelheidInput, newValueDisplay));
 
     document.getElementById('container').appendChild(newContainer);
 }
@@ -253,7 +215,7 @@ function updateNodigValue(totalValue) {
     let scoops = Math.round(nodig / 20);
 
     if (scoops <= 0) {
-        scoops = 1; // Stel scoops in op minimaal 1 als het 0 of negatief is
+        scoops = 1;
     }
     const nodigDisplay = document.getElementById('nodig');
     nodigDisplay.textContent = `nodig: ${nodig} gram/${scoops} scoops `;
@@ -264,6 +226,7 @@ function jamalaan() {
     downloadData();
     return !jamal;
 }
+
 
 
        
