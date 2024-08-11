@@ -33,7 +33,7 @@
     <img src="img/profilepic.png" class="profilepicture">
 
     <label for="search" class="Invullenicon"> 
-        <div>Voer hier in wat je hebt gegeten vandaag T30:</div>
+        <div>Voer hier in wat je hebt gegeten vandaag T32:</div>
     </label>
     <p>&nbsp;</p>
 
@@ -234,24 +234,34 @@ function addFirstClone(originalContainer) {
 }
 
 // Functie om totaalwaarde van alle value displays te berekenen en weer te geven
-function updateTotalValueDisplay() {
-    let totalValue = 0;
-    const allValueDisplays = document.querySelectorAll('.value-display');
+function updateValueDisplay(searchInput, hoeveelheidInput, valueDisplay) {
+    const zoekterm = searchInput.value.trim().toLowerCase();
+    const hoeveelheid = parseInt(hoeveelheidInput.value.trim(), 10);
 
-    allValueDisplays.forEach(display => {
-        const valueText = display.textContent;
-        const match = valueText.match(/\d+/); // Zoek naar getallen in de tekst
-        if (match) {
-            totalValue += parseInt(match[0]);
+    let totaleWaarde = 0;
+
+    if (zoekterm && hoeveelheid) {
+        // Zoekterm matchen met suggestionData
+        for (const item in suggestionData) {
+            if (item.toLowerCase().includes(zoekterm)) {
+                const itemWaarde = suggestionData[item] * hoeveelheid;
+                totaleWaarde += itemWaarde;
+
+                // Log de details naar de console
+                console.log(`Item: ${item}, Zoekterm: ${zoekterm}, Hoeveelheid: ${hoeveelheid}, ItemWaarde: ${itemWaarde} gram`);
+            }
         }
-    });
+    }
 
-    const totalDisplay = document.getElementById('totaal');
-    totalDisplay.textContent = `Totaal: ${totalValue} gram`;
+    // Update de value display
+    valueDisplay.textContent = `${totaleWaarde} gram`;
 
-    updateNodigValue(totalValue);
+    // Debugging: Console log om te controleren of de functie correct werkt
+    console.log(`Update display: zoekterm = ${zoekterm}, hoeveelheid = ${hoeveelheid}, totaleWaarde = ${totaleWaarde}`);
+
+    // Update ook het totaal onderaan de pagina
+    updateTotalValueDisplay();
 }
-
 // Functie om de 'nodig' waarde te berekenen en weer te geven
 function updateNodigValue(totalValue) {
     const nodig = 106 - totalValue;
