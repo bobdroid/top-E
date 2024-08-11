@@ -33,7 +33,7 @@
     <img src="img/profilepic.png" class="profilepicture">
 
     <label for="search" class="Invullenicon"> 
-        <div>Voer hier in wat je hebt gegeten vandaag T27:</div>
+        <div>Voer hier in wat je hebt gegeten vandaag T2:</div>
     </label>
     <p>&nbsp;</p>
 
@@ -117,119 +117,153 @@
         // Zorg ervoor dat deze variabele correct bovenaan het script is gedeclareerd
 // Zorg ervoor dat deze variabelen correct bovenaan het script zijn gedeclareerd
 let kopieTeller = 0; // Teller voor het bijhouden van het aantal kopieën
+let isFirstCloneAdded = false; // Flag om bij te houden of de eerste clone is toegevoegd
 
-        // Functie om value display bij te werken
-        function updateValueDisplay(searchInput, hoeveelheidInput, valueDisplay) {
-            const zoekterm = searchInput.value.trim().toLowerCase();
-            const hoeveelheid = parseInt(hoeveelheidInput.value.trim());
+// Roep de functie op om suggesties te laden
+loadSuggestions();
 
-            let totaleWaarde = 0;
+// Functie om value display bij te werken
+function updateValueDisplay(searchInput, hoeveelheidInput, valueDisplay) {
+    const zoekterm = searchInput.value.trim().toLowerCase();
+    const hoeveelheid = parseInt(hoeveelheidInput.value.trim());
 
-            if (zoekterm && hoeveelheid) {
-                // Zoekterm matchen met suggestionData
-                for (const item in suggestionData) {
-                    if (item.toLowerCase().includes(zoekterm)) {
-                        totaleWaarde += suggestionData[item] * hoeveelheid;
-                    }
-                }
+    let totaleWaarde = 0;
+
+    if (zoekterm && hoeveelheid) {
+        // Zoekterm matchen met suggestionData
+        for (const item in suggestionData) {
+            if (item.toLowerCase().includes(zoekterm)) {
+                totaleWaarde += suggestionData[item] * hoeveelheid;
             }
-
-            valueDisplay.textContent = `${totaleWaarde} gram`;
-
-            // Update ook het totaal onderaan de pagina
-            updateTotalValueDisplay();
         }
+    }
 
-        // Functie om inputvelden te kopiëren
-        function kopieerInputvelden() {
-            const container = document.getElementById('container');
-            container.style.display = 'block'; // Zorg ervoor dat de container zichtbaar wordt
+    // Toon het resultaat
+    valueDisplay.textContent = `${totaleWaarde} gram`;
 
-            const originalContainer = document.querySelector('.search-container');
+    // Update het totaal onderaan de pagina
+    updateTotalValueDisplay();
+}
 
-            const numCopies = 1; // Aantal kopieën dat je wilt maken
+// Functie om inputvelden te kopiëren
+function kopieerInputvelden() {
+    const container = document.getElementById('container');
+    container.style.display = 'block';
 
-            for (let i = 0; i < numCopies; i++) {
-                const newContainer = document.createElement('div');
-                newContainer.className = 'search-container';
-                newContainer.innerHTML = originalContainer.innerHTML;
-                newContainer.style.marginTop = `${(kopieTeller + i + 1) * 150}px`; // Verhoog de margin per kopie
+    const originalContainer = document.querySelector('.search-container');
 
-                // Genereer unieke id's voor de gekopieerde inputvelden
-                const newSearchId = `search-${kopieTeller + i + 1}`;
-                const newHoeveelheidId = `hoeveelheid-${kopieTeller + i + 1}`;
-                const newValueDisplayId = `valuedisplay-${kopieTeller + i + 1}`;
+    if (!isFirstCloneAdded) {
+        addFirstClone(originalContainer);
+        isFirstCloneAdded = true;
+    }
 
-                // Update id's van inputvelden en value display
-                const newSearchInput = newContainer.querySelector('.search-box');
-                const newHoeveelheidInput = newContainer.querySelector('.hoeveelheidbox');
-                const newValueDisplay = newContainer.querySelector('.value-display');
+    const numCopies = 1;
 
-                newSearchInput.setAttribute('id', newSearchId);
-                newHoeveelheidInput.setAttribute('id', newHoeveelheidId);
-                newValueDisplay.setAttribute('id', newValueDisplayId);
+    for (let i = 0; i < numCopies; i++) {
+        const newContainer = document.createElement('div');
+        newContainer.className = 'search-container';
+        newContainer.innerHTML = originalContainer.innerHTML;
+        newContainer.style.marginTop = `${(kopieTeller + i + 1) * 150}px`;
 
-                // Voeg event listeners toe voor input velden om de waarde direct bij te werken
-                newSearchInput.addEventListener('input', function () {
-                    updateValueDisplay(newSearchInput, newHoeveelheidInput, newValueDisplay);
-                });
+        const newSearchId = `search-${kopieTeller + i + 1}`;
+        const newHoeveelheidId = `hoeveelheid-${kopieTeller + i + 1}`;
+        const newValueDisplayId = `valuedisplay-${kopieTeller + i + 1}`;
 
-                newHoeveelheidInput.addEventListener('input', function () {
-                    updateValueDisplay(newSearchInput, newHoeveelheidInput, newValueDisplay);
-                });
+        const newSearchInput = newContainer.querySelector('.search-box');
+        const newHoeveelheidInput = newContainer.querySelector('.hoeveelheidbox');
+        const newValueDisplay = newContainer.querySelector('.value-display');
 
-                // Voeg gekopieerde container toe aan de hoofdcontainer
-                container.appendChild(newContainer);
-            }
+        newSearchInput.setAttribute('id', newSearchId);
+        newHoeveelheidInput.setAttribute('id', newHoeveelheidId);
+        newValueDisplay.setAttribute('id', newValueDisplayId);
 
-            // Verberg de originele container na het kopiëren
-            originalContainer.style.display = 'none';
+        // Debugging: console log voor controle
+        console.log(`Created new inputs with IDs: ${newSearchId}, ${newHoeveelheidId}, ${newValueDisplayId}`);
 
-            kopieTeller += numCopies;
+        newSearchInput.addEventListener('input', function() {
+            updateValueDisplay(newSearchInput, newHoeveelheidInput, newValueDisplay);
+        });
 
-            // Update het totaal onderaan de pagina na het kopiëren
-            updateTotalValueDisplay();
+        newHoeveelheidInput.addEventListener('input', function() {
+            updateValueDisplay(newSearchInput, newHoeveelheidInput, newValueDisplay);
+        });
+
+        container.appendChild(newContainer);
+    }
+
+    originalContainer.style.display = 'none';
+    kopieTeller += numCopies;
+
+    // Update het totaal onderaan de pagina na het kopiëren
+    updateTotalValueDisplay();
+}
+
+// Functie om de eerste clone toe te voegen op de plek van de originele container
+function addFirstClone(originalContainer) {
+    const newContainer = document.createElement('div');
+    newContainer.className = 'search-container';
+    newContainer.innerHTML = originalContainer.innerHTML;
+
+    const newSearchId = `search-${kopieTeller + 1}`;
+    const newHoeveelheidId = `hoeveelheid-${kopieTeller + 1}`;
+    const newValueDisplayId = `valuedisplay-${kopieTeller + 1}`;
+
+    const newSearchInput = newContainer.querySelector('.search-box');
+    const newHoeveelheidInput = newContainer.querySelector('.hoeveelheidbox');
+    const newValueDisplay = newContainer.querySelector('.value-display');
+
+    newSearchInput.setAttribute('id', newSearchId);
+    newHoeveelheidInput.setAttribute('id', newHoeveelheidId);
+    newValueDisplay.setAttribute('id', newValueDisplayId);
+
+    // Voeg event listeners toe voor input velden om de waarde direct bij te werken
+    newSearchInput.addEventListener('input', function() {
+        updateValueDisplay(newSearchInput, newHoeveelheidInput, newValueDisplay);
+    });
+
+    newHoeveelheidInput.addEventListener('input', function() {
+        updateValueDisplay(newSearchInput, newHoeveelheidInput, newValueDisplay);
+    });
+
+    document.getElementById('container').appendChild(newContainer);
+}
+
+// Functie om totaalwaarde van alle value displays te berekenen en weer te geven
+function updateTotalValueDisplay() {
+    let totalValue = 0;
+    const allValueDisplays = document.querySelectorAll('.value-display');
+
+    allValueDisplays.forEach(display => {
+        const valueText = display.textContent;
+        const match = valueText.match(/\d+/); // Zoek naar getallen in de tekst
+        if (match) {
+            totalValue += parseInt(match[0]);
         }
+    });
 
-        // Functie om totaalwaarde van alle value displays te berekenen en weer te geven
-        function updateTotalValueDisplay() {
-            let totalValue = 0;
-            const allValueDisplays = document.querySelectorAll('.value-display');
+    const totalDisplay = document.getElementById('totaal');
+    totalDisplay.textContent = `Totaal: ${totalValue} gram`;
 
-            allValueDisplays.forEach(display => {
-                const valueText = display.textContent;
-                const match = valueText.match(/\d+/); // Zoek naar getallen in de tekst
-                if (match) {
-                    totalValue += parseInt(match[0]);
-                }
-            });
+    updateNodigValue(totalValue);
+}
 
-            const totalDisplay = document.getElementById('totaal');
-            totalDisplay.textContent = `Totaal: ${totalValue} gram`;
+// Functie om de 'nodig' waarde te berekenen en weer te geven
+function updateNodigValue(totalValue) {
+    const nodig = 106 - totalValue;
+    let scoops = Math.round(nodig / 20);
 
-            updateNodigValue(totalValue);
-        }
-
-        // Functie om de 'nodig' waarde te berekenen en weer te geven
-        function updateNodigValue(totalValue) {
-            const nodig = 106 - totalValue;
-            let scoops = Math.round(nodig / 20);
-
-            // Controleer of scoops 0 of negatief is en corrigeer indien nodig
-            if (scoops <= 0) {
-                scoops = 1; // Stel scoops in op minimaal 1 als het 0 of negatief is
-            }
-
-            const nodigDisplay = document.getElementById('nodig');
-            nodigDisplay.textContent = `Nodig: ${nodig} gram / ${scoops} scoops`;
-        }
+    if (scoops <= 0) {
+        scoops = 1; // Stel scoops in op minimaal 1 als het 0 of negatief is
+    }
+    const nodigDisplay = document.getElementById('nodig');
+    nodigDisplay.textContent = `nodig: ${nodig} gram/${scoops} scoops `;
+}
 
 function jamalaan() {
     let jamal = true;
     downloadData();
     return !jamal;
 }
-
 
 
        
