@@ -33,7 +33,7 @@
     <img src="img/profilepic.png" class="profilepicture">
 
     <label for="search" class="Invullenicon"> 
-        <div>Voer hier in wat je hebt gegeten vandaag T32:</div>
+        <div>Voer hier in wat je hebt gegeten vandaag T30:</div>
     </label>
     <p>&nbsp;</p>
 
@@ -114,7 +114,7 @@
         // Vul de datalist bij het laden van de pagina
         document.addEventListener('DOMContentLoaded', vulDatalist);
     
-        let kopieTeller = 0; // Teller voor het bijhouden van het aantal kopieën
+let kopieTeller = 0; // Teller voor het bijhouden van het aantal kopieën
 let isFirstCloneAdded = false; // Flag om bij te houden of de eerste clone is toegevoegd
 
 // Functie om value display bij te werken
@@ -234,28 +234,23 @@ function addFirstClone(originalContainer) {
 }
 
 // Functie om totaalwaarde van alle value displays te berekenen en weer te geven
-function updateValueDisplay(searchInput, hoeveelheidInput, valueDisplay) {
-    const zoekterm = searchInput.value.trim().toLowerCase();  // zoekterm omgezet naar kleine letters
-    const hoeveelheid = parseInt(hoeveelheidInput.value.trim());
+function updateTotalValueDisplay() {
+    let totalValue = 0;
+    const allValueDisplays = document.querySelectorAll('.value-display');
 
-    let totaleWaarde = 0;
-
-    if (zoekterm && hoeveelheid) {
-        // Zoek naar een exacte match van de zoekterm in suggestionData
-        for (const item in suggestionData) {
-            if (item.toLowerCase() === zoekterm) {
-                totaleWaarde = suggestionData[item] * hoeveelheid;
-                break;  // Zodra we een match vinden, stoppen we met zoeken
-            }
+    allValueDisplays.forEach(display => {
+        const valueText = display.textContent;
+        const match = valueText.match(/\d+/); // Zoek naar getallen in de tekst
+        if (match) {
+            totalValue += parseInt(match[0]);
         }
-    }
+    });
 
-    valueDisplay.textContent = `${totaleWaarde} gram`;
+    const totalDisplay = document.getElementById('totaal');
+    totalDisplay.textContent = `Totaal: ${totalValue} gram`;
 
-    // Update ook het totaal onderaan de pagina
-    updateTotalValueDisplay();
+    updateNodigValue(totalValue);
 }
-
 
 // Functie om de 'nodig' waarde te berekenen en weer te geven
 function updateNodigValue(totalValue) {
