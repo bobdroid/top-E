@@ -33,7 +33,7 @@
     <img src="img/profilepic.png" class="profilepicture">
 
     <label for="search" class="Invullenicon"> 
-        <div>Voer hier in wat je hebt gegeten vandaag T23:</div>
+        <div>Voer hier in wat je hebt gegeten vandaag T24:</div>
     </label>
     <p>&nbsp;</p>
 
@@ -114,13 +114,17 @@
         // Vul de datalist bij het laden van de pagina
         document.addEventListener('DOMContentLoaded', vulDatalist);
     
-        loadSuggestions();
-let kopieTeller = 0;
-let isFirstCloneAdded = false;
+        // Zorg ervoor dat deze variabele correct bovenaan het script is gedeclareerd
+let kopieTeller = 0; // Teller voor het bijhouden van het aantal kopieën
+let isFirstCloneAdded = false; // Flag om bij te houden of de eerste clone is toegevoegd
 
+loadSuggestions(); // Deze functie moet correct worden aangeroepen
+
+// Functie om value display bij te werken
 function updateValueDisplay(searchInput, hoeveelheidInput, valueDisplay) {
     const zoekterm = searchInput.value.trim().toLowerCase();
     const hoeveelheid = parseInt(hoeveelheidInput.value.trim());
+
     let totaleWaarde = 0;
 
     if (zoekterm && hoeveelheid) {
@@ -135,6 +139,7 @@ function updateValueDisplay(searchInput, hoeveelheidInput, valueDisplay) {
     updateTotalValueDisplay();
 }
 
+// Functie om inputvelden te kopiëren
 function kopieerInputvelden() {
     const container = document.getElementById('container');
     container.style.display = 'block';
@@ -143,7 +148,7 @@ function kopieerInputvelden() {
 
     if (!isFirstCloneAdded) {
         addFirstClone(originalContainer);
-        isFirstCloneAdded = true;
+        isFirstCloneAdded = true; // Zet de flag na het toevoegen van de eerste clone
     }
 
     const numCopies = 1;
@@ -182,6 +187,7 @@ function kopieerInputvelden() {
     updateTotalValueDisplay();
 }
 
+// Functie om de eerste clone toe te voegen op de plek van de originele container
 function addFirstClone(originalContainer) {
     const newContainer = document.createElement('div');
     newContainer.className = 'search-container';
@@ -244,6 +250,7 @@ function jamalaan() {
     downloadData();
     return !jamal;
 }
+
 
        
        
