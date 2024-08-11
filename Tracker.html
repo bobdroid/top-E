@@ -33,7 +33,7 @@
     <img src="img/profilepic.png" class="profilepicture">
 
     <label for="search" class="Invullenicon"> 
-        <div>Voer hier in wat je hebt gegeten vandaag T34:</div>
+        <div>Voer hier in wat je hebt gegeten vandaag T35:</div>
     </label>
     <p>&nbsp;</p>
 
@@ -65,7 +65,7 @@
     <p id="nodig" class="nodig"></p>
     
     <script>
-        const suggestionData = {
+        let suggestionData = JSON.parse(localStorage.getItem('suggestionData')) || {
             "Kipdijfiletstuk": 6,
             "kipvleugel": 20,
             "Cherry": 10,
@@ -75,6 +75,9 @@
             "Grape": 30,
             "Honeydew": 35
         };
+
+
+
 
         let kopieTeller = 0; // Teller voor het bijhouden van het aantal kopieën
         let isFirstCloneAdded = false; // Flag om bij te houden of de eerste clone is toegevoegd
@@ -101,7 +104,7 @@
             updateTotalValueDisplay();
         }
 
-        function generateHistoryLinks() {
+      
             const dropdownContent = document.getElementById('dropdown-content');
             const historiePath = 'historie/'; // The path where historie files are located
             
@@ -122,33 +125,7 @@
                 .catch(error => {
                     console.error('Error fetching historie files:', error);
                 });
-        }
-
-        // Call the function to generate the links
-        generateHistoryLinks();
-
-        const express = require('express');
-const fs = require('fs');
-const path = require('path');
-const app = express();
-
-app.get('/path/to/historie/files', (req, res) => {
-    const directoryPath = path.join(__dirname, 'historie');
-
-    fs.readdir(directoryPath, (err, files) => {
-        if (err) {
-            return res.status(500).json({ error: 'Unable to scan directory' });
-        }
-
-        // Return the list of files as JSON
-        res.json(files);
-    });
-});
-
-app.listen(3000, () => {
-    console.log('Server started on http://localhost:3000');
-});
-
+        
 
 
         // Functie om inputvelden te kopiëren
