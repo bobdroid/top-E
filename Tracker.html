@@ -33,7 +33,7 @@
     <img src="img/profilepic.png" class="profilepicture">
 
     <label for="search" class="Invullenicon"> 
-        <div>Voer hier in wat je hebt gegeten vandaag T35:</div>
+        <div>Voer hier in wat je hebt gegeten vandaag T36:</div>
     </label>
     <p>&nbsp;</p>
 
@@ -85,12 +85,11 @@
         // Functie om value display bij te werken
         function updateValueDisplay(searchInput, hoeveelheidInput, valueDisplay) {
             const zoekterm = searchInput.value.trim().toLowerCase();
-            const hoeveelheid = parseInt(hoeveelheidInput.value.trim());
+            const hoeveelheid = parseInt(hoeveelheidInput.value.trim(), 10);
 
             let totaleWaarde = 0;
 
             if (zoekterm && hoeveelheid) {
-                // Zoekterm matchen met suggestionData
                 for (const item in suggestionData) {
                     if (item.toLowerCase().includes(zoekterm)) {
                         totaleWaarde += suggestionData[item] * hoeveelheid;
@@ -100,33 +99,12 @@
 
             valueDisplay.textContent = `${totaleWaarde} gram`;
 
+            // Debugging: Console log om te controleren of de functie correct werkt
+            console.log(`Update display: zoekterm = ${zoekterm}, hoeveelheid = ${hoeveelheid}, totaleWaarde = ${totaleWaarde}`);
+
             // Update ook het totaal onderaan de pagina
             updateTotalValueDisplay();
         }
-
-      
-            const dropdownContent = document.getElementById('dropdown-content');
-            const historiePath = 'historie/'; // The path where historie files are located
-            
-            // Fetch the list of files from the server (assuming you have an endpoint that provides this)
-            fetch('/path/to/historie/files') // Adjust the endpoint to your server setup
-                .then(response => response.json())
-                .then(files => {
-                    files.forEach(file => {
-                        // Check if the file contains 'historie' in its name
-                        if (file.includes('historie')) {
-                            const a = document.createElement('a');
-                            a.href = `${historiePath}${file}`;
-                            a.textContent = file;
-                            dropdownContent.appendChild(a);
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching historie files:', error);
-                });
-        
-
 
         // Functie om inputvelden te kopiëren
         function kopieerInputvelden() {
@@ -250,8 +228,16 @@
             nodigDisplay.textContent = `nodig: ${nodig} gram/${scoops} scoops `;
         }
 
-        // Functie om de ingevulde gegevens te exporteren naar een HTML-bestand
-       // Functie om de ingevulde gegevens te exporteren naar een HTML-bestand
+        // Initialiseer de waarde-display voor bestaande inputvelden
+        document.querySelectorAll('.search-container').forEach(container => {
+            const searchInput = container.querySelector('.search-box');
+            const hoeveelheidInput = container.querySelector('.hoeveelheidbox');
+            const valueDisplay = container.querySelector('.value-display');
+
+            if (searchInput && hoeveelheidInput && valueDisplay) {
+                updateValueDisplay(searchInput, hoeveelheidInput, valueDisplay);
+            }
+        });
       
        function jamalaan() {
         let jamal = true
