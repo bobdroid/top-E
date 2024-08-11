@@ -33,7 +33,7 @@
     <img src="img/profilepic.png" class="profilepicture">
 
     <label for="search" class="Invullenicon"> 
-        <div>Voer hier in wat je hebt gegeten vandaag T31:</div>
+        <div>Voer hier in wat je hebt gegeten vandaag T32:</div>
     </label>
     <p>&nbsp;</p>
 
@@ -234,23 +234,28 @@ function addFirstClone(originalContainer) {
 }
 
 // Functie om totaalwaarde van alle value displays te berekenen en weer te geven
-function updateTotalValueDisplay() {
-    let totalValue = 0;
-    const allValueDisplays = document.querySelectorAll('.value-display');
+function updateValueDisplay(searchInput, hoeveelheidInput, valueDisplay) {
+    const zoekterm = searchInput.value.trim().toLowerCase();  // zoekterm omgezet naar kleine letters
+    const hoeveelheid = parseInt(hoeveelheidInput.value.trim());
 
-    allValueDisplays.forEach(display => {
-        const valueText = display.textContent;
-        const match = valueText.match(/\d+/); // Zoek naar getallen in de tekst
-        if (match) {
-            totalValue += parseInt(match[0]);
+    let totaleWaarde = 0;
+
+    if (zoekterm && hoeveelheid) {
+        // Zoek naar een exacte match van de zoekterm in suggestionData
+        for (const item in suggestionData) {
+            if (item.toLowerCase() === zoekterm) {
+                totaleWaarde = suggestionData[item] * hoeveelheid;
+                break;  // Zodra we een match vinden, stoppen we met zoeken
+            }
         }
-    });
+    }
 
-    const totalDisplay = document.getElementById('totaal');
-    totalDisplay.textContent = `Totaal: ${totalValue} gram`;
+    valueDisplay.textContent = `${totaleWaarde} gram`;
 
-    updateNodigValue(totalValue);
+    // Update ook het totaal onderaan de pagina
+    updateTotalValueDisplay();
 }
+
 
 // Functie om de 'nodig' waarde te berekenen en weer te geven
 function updateNodigValue(totalValue) {
